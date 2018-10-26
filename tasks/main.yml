@@ -1,0 +1,47 @@
+- name: install maas apt key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 684D4A1C
+
+- name: configure maas repo
+  apt_repository:
+    repo: ppa:maas/next
+    state: present
+    filename: maas
+
+#- name: install maas image builder
+#  package:
+#    name: maas-image-builder
+#    state: present
+
+- name: install maas
+  package:
+    name: maas
+    state: present
+
+- name: configure curtin to install python
+  lineinfile: 
+    dest: /etc/maas/preseeds/curtin_userdata 
+    insertafter: "^.*late_commands:" 
+    line: "  python: ['curtin', 'in-target', '--', 'apt-get', '-y', 'install', 'python']"
+
+- name: configure curtin to install python-lxml
+  lineinfile:
+    dest: /etc/maas/preseeds/curtin_userdata
+    insertafter: "^.*python:"
+    line: "  python-lxml: ['curtin', 'in-target', '--', 'apt-get', '-y', 'install', 'python-lxml']"
+
+- name: install ipmitool
+  package:
+    name: ipmitool
+    state: present
+  
+- name: install libvirt-bin
+  package:
+    name: libvirt-bin
+    state: present
+
+- name: Set MAAS user shell to /bin/bash
+  user:
+    name: maas
+    shell: /bin/bash
