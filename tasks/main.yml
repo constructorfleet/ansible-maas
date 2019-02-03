@@ -67,6 +67,35 @@
     - restart-maas-rackd
     - restart-maas-regiond
 
+- name: Add SSL configuration to MAAS Nginx config
+  blockinfile:
+    path: /var/lib/maas/http/rackd.nginx.conf
+    block: |
+      server {
+       listen 443 ssl;
+       server_name _;
+       ssl_certificate /data/ssl/prettybaked/prettybaked.fullchain;
+       ssl_certificate_key /data/ssl/prettybaked/prettybaked.key;
+       location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host:$server_port;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_buffering off;
+        proxy_pass http://maas-regions/;
+       }
+       location /MAAS/ {
+        proxy_pass http://maas-region/MAAS/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+       }
+      }
+  notify:
+    - restart-maas-http
+
 - name: install ipmitool
   package:
     name: ipmitool

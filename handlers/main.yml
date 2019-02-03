@@ -8,6 +8,11 @@
     name: maas-regiond
     state: restarted
     enabled: yes
+- name: restart-maas-http
+  service:
+    name: maas-http
+    state: restarted
+    enabled: yes
 - name: restart-postgresql
   service:
     name: postgresql
