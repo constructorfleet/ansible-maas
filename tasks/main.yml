@@ -35,7 +35,7 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  disable_default_user: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -re '/^users:/,+1 s/^/#/' /etc/cloud/cloud.cfg\"]"
+    line: "  disable_default_user: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -ri '/^users:/,+1 s/^/#/' /etc/cloud/cloud.cfg\"]"
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
@@ -45,6 +45,15 @@
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: "  activate_root: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -i 's/disable_root: true/disable_root: false/' /etc/cloud/cloud.cfg\"]"
+  notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
+
+- name: "configure curtin to set root password"
+  lineinfile:
+    dest: /etc/maas/preseeds/curtin_userdata
+    insertafter: EOF
+    line: "  root_password: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"usermod -p '$6$rounds=656000$YWRhOGM3ZjVhM2$GgO85FGIwq/LYMZ9n36wMImAKzhfP8OHc.kePfl1uWAym5Frsvr6AcEAfscwXzsPAPUud0eJeb3nO.nOlmsyy/' root\"]"
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
