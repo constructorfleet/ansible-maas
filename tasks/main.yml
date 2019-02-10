@@ -67,6 +67,28 @@
     - restart-maas-rackd
     - restart-maas-regiond
 
+- name: Install SSL Key
+  copy:
+    content: "{{ vault_prettybaked_com_ssl_private_key }}"
+    dest: /etc/ssl/certs/prettybaked.com.key
+    owner: maas
+    group: maas
+    mode: 0640
+  notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
+
+- name: Install SSL Certificate Chain
+  copy:
+    content: "{{ vault_prettybaked_com_ssl_certificate }}"
+    dest: /etc/ssl/certs/prettybaked.com.pem
+    owner: maas
+    group: maas
+    mode: 0640
+  notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
+
 - name: Add SSL configuration to MAAS Nginx config
   blockinfile:
     path: /var/lib/maas/http/rackd.nginx.conf
@@ -74,8 +96,8 @@
       server {
        listen 443 ssl;
        server_name _;
-       ssl_certificate /data/ssl/prettybaked/prettybaked.fullchain;
-       ssl_certificate_key /data/ssl/prettybaked/prettybaked.key;
+       ssl_certificate /etc/ssl/certs/prettybaked.com.pem;
+       ssl_certificate_key /etc/ssl/certs/prettybaked.com.key;
        location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
