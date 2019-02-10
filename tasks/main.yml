@@ -69,8 +69,8 @@
 
 - name: Install SSL Key
   copy:
-    content: "{{ vault_prettybaked_com_ssl_private_key }}"
-    dest: /etc/ssl/certs/prettybaked.com.key
+    content: "{{ vault_ssl_private_key }}"
+    dest: "{{ ssl_private_key }}"
     owner: maas
     group: maas
     mode: 0640
@@ -80,8 +80,8 @@
 
 - name: Install SSL Certificate Chain
   copy:
-    content: "{{ vault_prettybaked_com_ssl_certificate }}"
-    dest: /etc/ssl/certs/prettybaked.com.pem
+    content: "{{ vault_ssl_certificate }}"
+    dest: "{{ ssl_certificate }}"
     owner: maas
     group: maas
     mode: 0640
