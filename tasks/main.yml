@@ -107,15 +107,20 @@
     - restart-maas-rackd
     - restart-maas-regiond
 
+
 - name: Add SSL configuration to MAAS Nginx config
   blockinfile:
-    path: /var/lib/maas/http/rackd.nginx.conf
+    state: present
+    path: /usr/lib/python3/dist-packages/provisioningserver/templates/http/rackd.nginx.conf.template
+#    path: /var/lib/maas/http/rackd.nginx.conf
     block: |
       server {
        listen 443 ssl;
        server_name _;
        ssl_certificate "{{ ssl_certificate }}";
        ssl_certificate_key "{{ ssl_private_key }}";
+       {% raw -%}
+       {{if upstream_http}}
        location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -127,13 +132,17 @@
         proxy_pass http://maas-regions/;
        }
        location /MAAS/ {
-        proxy_pass http://maas-region/MAAS/;
+        proxy_pass http://maas-regions/MAAS/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "Upgrade";
        }
+       {{endif}}
       }
+      {%- endraw %}
   notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
     - restart-maas-http
 
 - name: install ipmitool
