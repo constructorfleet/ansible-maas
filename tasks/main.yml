@@ -71,7 +71,7 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  power_cycle: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -i '$a power_state:\\n mode: reboot\\n condition: True' /etc/cloud/cloud.cfg\"]"
+    line: "  power_cycle: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -ri '$a power_state:\\\\n   mode: reboot\\\\n   condition: True' /etc/cloud/cloud.cfg\"]"
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
