@@ -95,6 +95,7 @@
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
+  when: maas_use_ssl
 
 - name: Install SSL Certificate Chain
   copy:
@@ -106,6 +107,7 @@
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
+  when: maas_use_ssl
 
 
 - name: Add SSL configuration to MAAS Nginx config
@@ -144,6 +146,7 @@
     - restart-maas-rackd
     - restart-maas-regiond
     - restart-maas-http
+  when: maas_use_ssl
 
 - name: install ipmitool
   package:
