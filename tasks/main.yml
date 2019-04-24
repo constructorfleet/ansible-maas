@@ -163,6 +163,13 @@
     name: maas
     shell: /bin/bash
 
+- name: Create MAAS ssh directory
+  file:
+    path: /var/lib/maas/.ssh
+    state: directory
+    owner: maas
+    mode: 0600
+
 - name: Copy SSH Config
   copy:
     owner: maas
