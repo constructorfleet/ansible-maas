@@ -20,9 +20,9 @@
     state: present
 
 - name: configure curtin to install python
-  lineinfile: 
-    dest: /etc/maas/preseeds/curtin_userdata 
-    insertafter: "^.*late_commands:" 
+  lineinfile:
+    dest: /etc/maas/preseeds/curtin_userdata
+    insertafter: "^.*late_commands:"
     line: "  python: ['curtin', 'in-target', '--', 'apt-get', '-y', 'install', 'python']"
 
 - name: configure curtin to install python-lxml
@@ -122,7 +122,7 @@
        ssl_certificate "{{ ssl_certificate }}";
        ssl_certificate_key "{{ ssl_private_key }}";
        {% raw -%}
-       {{if upstream_http}}
+       {{ if upstream_http }}
        location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -139,7 +139,7 @@
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "Upgrade";
        }
-       {{endif}}
+       {{ endif }}
       }
       {%- endraw %}
   notify:
@@ -152,7 +152,7 @@
   package:
     name: ipmitool
     state: present
-  
+
 - name: install libvirt-bin
   package:
     name: libvirt-bin
@@ -186,7 +186,7 @@
     content: "{{ maas_ssh_public_key }}"
     dest: /var/lib/maas/.ssh/id_rsa.pub
   when: maas_ssh_public_key is defined
-  
+
 - name: Setup SSH Private Key
   copy:
     mode: 0600
