@@ -122,7 +122,7 @@
        ssl_certificate "{{ ssl_certificate }}";
        ssl_certificate_key "{{ ssl_private_key }}";
        {% raw -%}
-       {{ if upstream_http }}
+       {{if upstream_http}}
        location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -139,7 +139,7 @@
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "Upgrade";
        }
-       {{ endif }}
+       {{endif}}
       }
       {%- endraw %}
   notify:
