@@ -190,7 +190,7 @@
     owner: maas
     content: "{{ maas_ssh_public_key }}"
     dest: /var/lib/maas/.ssh/id_rsa.pub
-  when: maas_ssh_public_key is defined
+  when: maas_ssh_public_key is defined and maas_ssh_public_key != None
 
 - name: Setup SSH Private Key
   copy:
@@ -198,4 +198,4 @@
     owner: maas
     content: "{{ maas_ssh_private_key }}"
     dest: /var/lib/maas/.ssh/id_rsa
-  when: maas_ssh_private_key is defined
+  when: maas_ssh_private_key is defined and maas_ssh_private_key != None
