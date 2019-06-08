@@ -1,1 +1,8 @@
+---
 maas_use_ssl: False
+vault_ssl_certificate:
+vault_ssl_private_key:
+ssl_certificate:
+ssl_private_key:
+maas_ssh_public_key:
+maas_ssh_private_key:
