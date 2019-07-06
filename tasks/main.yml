@@ -87,8 +87,8 @@
 
 - name: Install SSL Key
   copy:
-    content: "{{ vault_ssl_private_key }}"
-    dest: "{{ ssl_private_key }}"
+    content: "{{ ssl_privkey }}"
+    dest: "{{ ssl_keypath }}"
     owner: maas
     group: maas
     mode: 0640
@@ -99,8 +99,8 @@
 
 - name: Install SSL Certificate Chain
   copy:
-    content: "{{ vault_ssl_certificate }}"
-    dest: "{{ ssl_certificate }}"
+    content: "{{ ssl_certchain }}"
+    dest: "{{ ssl_certpath }}"
     owner: maas
     group: maas
     mode: 0640
@@ -119,8 +119,8 @@
       server {
        listen 443 ssl;
        server_name _;
-       ssl_certificate "{{ ssl_certificate }}";
-       ssl_certificate_key "{{ ssl_private_key }}";
+       ssl_certificate "{{ ssl_certpath }}";
+       ssl_certificate_key "{{ ssl_keypath }}";
        {% raw -%}
        {{if upstream_http}}
        location / {
