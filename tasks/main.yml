@@ -109,6 +109,15 @@
     - restart-maas-regiond
   when: maas_use_ssl
 
+- name: Copy MAAS NGINX config
+  template:
+    src: nginx.conf.j2
+    dest: /var/lib/maas/http/nginx.conf
+    mode: 0755
+  notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
+    - restart-maas-http
 
 - name: Add SSL configuration to MAAS Nginx config
   blockinfile:
