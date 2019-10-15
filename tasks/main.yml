@@ -76,6 +76,15 @@
     - restart-maas-rackd
     - restart-maas-regiond
 
+- name: "configure curtin to not manage /etc/hosts"
+  lineinfile:
+    dest: /etc/maas/preseeds/curtin_userdata
+    insertafter: EOF
+    line: "  activate_root: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -i 's/manage_etc_hosts: true/manage_etc_hosts: false/' /etc/cloud/cloud.cfg.d/90_dpkg_local_cloud_config.cfg\"]"
+  notify:
+    - restart-maas-rackd
+    - restart-maas-regiond
+
 - name: "enable VNC console for libvirt guests"
   lineinfile:
     dest: /usr/lib/python3/dist-packages/provisioningserver/drivers/pod/virsh.py
