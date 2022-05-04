@@ -1,20 +1,25 @@
+---
+
 - name: restart-maas-rackd
   service:
     name: maas-rackd
     state: restarted
-    enabled: yes
+    enabled: true
+
 - name: restart-maas-regiond
   service:
     name: maas-regiond
     state: restarted
-    enabled: yes
+    enabled: true
+
 - name: restart-maas-http
   service:
     name: maas-http
     state: restarted
-    enabled: yes
+    enabled: true
+
 - name: restart-postgresql
   service:
     name: postgresql
     state: restarted
-    enabled: yes
+    enabled: true
