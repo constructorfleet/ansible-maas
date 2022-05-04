@@ -10,9 +10,9 @@ platforms:
     privileged: true
 provisioner:
   name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
+#lint: |
+#  set -e
+#  yamllint .
+#  ansible-lint .
 verifier:
   name: ansible
