@@ -17,7 +17,7 @@ jobs:
       - name: Run Molecule tests
         uses: robertdebock/molecule-action@2.1.0
         with:
-          molecule_options: --debug
+          options: --debug
 #
 #  release:
 #    name: Release

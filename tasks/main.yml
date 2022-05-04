@@ -32,7 +32,9 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  disable_default_user_01: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -ri '/^users:/,+1d' /etc/cloud/cloud.cfg\"]"
+    line: >
+        disable_default_user_01: ["curtin", "in-target", "--", "sh",
+        "-c", "sed -ri '/^users:/,+1d' /etc/cloud/cloud.cfg"]
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
@@ -41,7 +43,9 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  disable_default_user_02: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -ri '/.*# Default user/,+7d' /etc/cloud/cloud.cfg\"]"
+    line: >
+        disable_default_user_02:
+        [curtin, in-target, --, sh, -c, sed -ri '/.*# Default user/,+7d' /etc/cloud/cloud.cfg]
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
@@ -50,7 +54,10 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  activate_root: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -i 's/disable_root: true/disable_root: false/' /etc/cloud/cloud.cfg\"]"
+    line: >
+        activate_root:
+        ["curtin", "in-target",
+        "--", "sh", "-c","sed -i 's/disable_root: true/disable_root: false/' /etc/cloud/cloud.cfg"]
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
@@ -59,7 +66,11 @@
   lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
-    line: "  root_password: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"usermod -p '$6$rounds=656000$YWRhOGM3ZjVhM2$tRbCWRSgc.dK/fYWlu4BPea338iXSDmrrp.VsIKBfjdDu.xEIzlfwaYHaTyyABYs.Rdyz3gm6BuIES4lFdbSe0' root\"]"
+    line: >
+        root_password:
+        ["curtin", "in-target", "--", "sh", "-c", "usermod -p
+        '$6$rounds=656000$YWRhOGM3ZjVhM2$tRbCWRSgc.dK/fYWlu4BPea338iXSDmrrp.VsIKBfjdDu.xEIzlfwaYHaTyyABYs.Rdyz3gm6BuIES4lFdbSe0'
+         root"]
   notify:
     - restart-maas-rackd
     - restart-maas-regiond
