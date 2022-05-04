@@ -8,9 +8,12 @@ platforms:
     image: ubuntu:20.04
     dockerfile: Dockerfile.j2
     privileged: true
-    python_interpreter: /usr/bin/python3
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      ansible-role-ubuntu-20.04:
+        ansible_python_interpreter: "/usr/bin/python3"
 #lint: |
 #  set -e
 #  yamllint .
