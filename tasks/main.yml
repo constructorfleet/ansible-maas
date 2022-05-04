@@ -1,3 +1,5 @@
+---
+
 - name: install maas apt key
   apt_key:
     keyserver: keyserver.ubuntu.com
@@ -8,11 +10,6 @@
     repo: ppa:maas/next
     state: present
     filename: maas
-
-#- name: install maas image builder
-#  package:
-#    name: maas-image-builder
-#    state: present
 
 - name: install maas
   package:
@@ -132,7 +129,6 @@
   blockinfile:
     state: present
     path: /usr/lib/python3/dist-packages/provisioningserver/templates/http/rackd.nginx.conf.template
-#    path: /var/lib/maas/http/rackd.nginx.conf
     block: |
       server {
        listen 443 ssl;
@@ -140,7 +136,7 @@
        ssl_certificate "{{ ssl_certpath }}";
        ssl_certificate_key "{{ ssl_keypath }}";
        {% raw -%}
-       {{if upstream_http}}
+       {% if upstream_http %}
        location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -162,7 +158,7 @@
         access_log   off;
         allow all;
        }
-       {{endif}}
+       {% endif %}
       }
       {%- endraw %}
   notify:

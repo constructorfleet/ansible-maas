@@ -1,7 +1,7 @@
 ---
 - name: MAAS Basic Installation
   hosts: maas
-  become: True
+  become: true
   tasks:
     - import_role:
         name: common
