@@ -1,8 +1,8 @@
 ---
-maas_use_ssl: False
+maas_use_ssl: false
 ssl_certpath:
-ssl_keypath: 
-ssl_privkey: 
+ssl_keypath:
+ssl_privkey:
 ssl_certchain:
 maas_ssh_public_key:
 maas_ssh_private_key:
