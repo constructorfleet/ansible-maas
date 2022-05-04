@@ -15,7 +15,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Run Molecule tests
-        uses: monolithprojects/action-molecule@v1.4.1
+        uses: robertdebock/molecule-action@2.1.0
         with:
           options: --debug
 #
