@@ -8,6 +8,7 @@ platforms:
     image: ubuntu:20.04
     dockerfile: Dockerfile.j2
     privileged: true
+    python_interpreter: /usr/bin/python3
 provisioner:
   name: ansible
 #lint: |
