@@ -1,8 +1,21 @@
 ---
+- name: Include os specific vars
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags:
+    - always
+    
 - name: Install pre-req packages
   ansible.builtin.apt:
     name:
       - gpg
+      - build-essential
+      - libffi-dev
+      - libssl-dev
+      - python3-setuptools
+      - python3-pip
     state: present
 
 - name: install maas apt key
