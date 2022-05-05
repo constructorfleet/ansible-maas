@@ -21,7 +21,6 @@ jobs:
         uses: gofrolist/molecule-action@v2
         with:
           molecule_options: --debug
-          molecule_command: converge
         env:
           ANSIBLE_FORCE_COLOR: '1'
 #
