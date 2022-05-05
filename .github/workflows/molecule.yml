@@ -19,6 +19,8 @@ jobs:
           path: "${{ github.repository }}"
       - name: Install dependencies
         run: |
+          echo $(pwd)
+          ls -lah
           python3 -m pip install --upgrade pip
           python3 -m pip install -r requirements.txt
       - name: Test with molecule
