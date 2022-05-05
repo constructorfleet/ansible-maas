@@ -6,7 +6,13 @@ driver:
 platforms:
   - name: ansible-role-ubuntu-20.04
     image: ubuntu:focal
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
     privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   options:
