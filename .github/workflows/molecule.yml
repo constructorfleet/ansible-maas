@@ -17,12 +17,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
-      - name: Run Molecule tests
-        uses: gofrolist/molecule-action@v2
-        with:
-          molecule_options: --debug
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+      - name: Test with molecule
+        run: |
+          molecule --debug converge
 #
 #  release:
 #    name: Release
