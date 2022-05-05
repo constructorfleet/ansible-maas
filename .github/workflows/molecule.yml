@@ -24,7 +24,7 @@ jobs:
       - name: Test with molecule
         run: |
           cd ${{ github.repository }}
-          molecule --debug converge
+          python3 -m molecule --debug converge
 #
 #  release:
 #    name: Release

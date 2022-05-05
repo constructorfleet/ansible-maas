@@ -29,7 +29,6 @@ MarkupSafe==2.1.1
 mccabe==0.6.1
 molecule==3.6.1
 molecule-docker @ git+https://github.com/ansible-community/molecule-docker.git@e171936ef0d7c4ca2f1188ae8ac3629a132e3c7e
-molecule-vagrant==1.0.0
 nodeenv==1.6.0
 packaging==21.3
 paramiko==2.10.4
