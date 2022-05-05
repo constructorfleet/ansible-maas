@@ -23,7 +23,6 @@ jobs:
           python3 -m pip install -r ${{ github.repository }}/requirements.txt
       - name: Test with molecule
         run: |
-          cd ${{ github.repository }}
           python3 -m molecule --debug converge
 #
 #  release:
