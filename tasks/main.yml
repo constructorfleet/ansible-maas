@@ -1,4 +1,9 @@
 ---
+- name: Install pre-req packages
+  ansible.builtin.apt:
+    name:
+      - gpg
+    state: present
 
 - name: install maas apt key
   ansible.builtin.apt_key:
