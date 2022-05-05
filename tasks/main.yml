@@ -1,35 +1,35 @@
 ---
 
 - name: install maas apt key
-  apt_key:
+  ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
     id: 684D4A1C
 
 - name: configure maas repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: ppa:maas/next
     state: present
     filename: maas
 
 - name: install maas
-  package:
+  ansible.builtin.package:
     name: maas
     state: present
 
 - name: configure curtin to install python
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: "^.*late_commands:"
     line: "  python: ['curtin', 'in-target', '--', 'apt-get', '-y', 'install', 'python']"
 
 - name: configure curtin to install python-lxml
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: "^.*python:"
     line: "  python-lxml: ['curtin', 'in-target', '--', 'apt-get', '-y', 'install', 'python-lxml']"
 
 - name: "remove default user creation from cloud config"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: >
@@ -40,7 +40,7 @@
     - restart-maas-regiond
 
 - name: "remove default user parameters from cloud config"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: >
@@ -51,7 +51,7 @@
     - restart-maas-regiond
 
 - name: "configure curtin to allow root login"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: >
@@ -63,7 +63,7 @@
     - restart-maas-regiond
 
 - name: "configure curtin to set root password"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: >
@@ -76,7 +76,7 @@
     - restart-maas-regiond
 
 - name: "configure curtin to allow reboot host after all cloud configs run"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: "  power_cycle: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -ri '$a power_state:\\\\n   mode: reboot\\\\n   condition: True' /etc/cloud/cloud.cfg\"]"
@@ -85,7 +85,7 @@
     - restart-maas-regiond
 
 - name: "configure curtin to not manage /etc/hosts"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/maas/preseeds/curtin_userdata
     insertafter: EOF
     line: "  unmanaged_etc_hosts: [\"curtin\", \"in-target\", \"--\", \"sh\", \"-c\", \"sed -i 's/manage_etc_hosts: true/manage_etc_hosts: false/' /etc/cloud/cloud.cfg.d/90_dpkg_local_cloud_config.cfg\"]"
@@ -94,7 +94,7 @@
     - restart-maas-regiond
 
 - name: "enable VNC console for libvirt guests"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /usr/lib/python3/dist-packages/provisioningserver/drivers/pod/virsh.py
     insertafter: '.*</graphics>$'
     line: "        <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'/>"
@@ -103,7 +103,7 @@
     - restart-maas-regiond
 
 - name: Install SSL Key
-  copy:
+  ansible.builtin.copy:
     content: "{{ ssl_privkey }}"
     dest: "{{ ssl_keypath }}"
     owner: maas
@@ -115,7 +115,7 @@
   when: maas_use_ssl
 
 - name: Install SSL Certificate Chain
-  copy:
+  ansible.builtin.copy:
     content: "{{ ssl_certchain }}"
     dest: "{{ ssl_certpath }}"
     owner: maas
@@ -127,7 +127,7 @@
   when: maas_use_ssl
 
 - name: Copy MAAS NGINX config
-  template:
+  ansible.builtin.template:
     src: nginx.conf.j2
     dest: /var/lib/maas/http/nginx.conf
     mode: 0755
@@ -137,7 +137,7 @@
     - restart-maas-http
 
 - name: Add SSL configuration to MAAS Nginx config
-  blockinfile:
+  ansible.builtin.blockinfile:
     state: present
     path: /usr/lib/python3/dist-packages/provisioningserver/templates/http/rackd.nginx.conf.template
     block: |
@@ -179,29 +179,29 @@
   when: maas_use_ssl
 
 - name: install ipmitool
-  package:
+  ansible.builtin.package:
     name: ipmitool
     state: present
 
 - name: install libvirt-bin
-  package:
+  ansible.builtin.package:
     name: libvirt-bin
     state: present
 
 - name: Set MAAS user shell to /bin/bash
-  user:
+  ansible.builtin.user:
     name: maas
     shell: /bin/bash
 
 - name: Create MAAS ssh directory
-  file:
+  ansible.builtin.file:
     path: /var/lib/maas/.ssh
     state: directory
     owner: maas
     mode: 0600
 
 - name: Copy SSH Config
-  copy:
+  ansible.builtin.copy:
     owner: maas
     mode: 0755
     dest: /var/lib/maas/.ssh/config
@@ -210,7 +210,7 @@
       UserKnownHostsFile /dev/null
 
 - name: Setup SSH Public Key
-  copy:
+  ansible.builtin.copy:
     mode: 0600
     owner: maas
     content: "{{ maas_ssh_public_key }}"
@@ -218,7 +218,7 @@
   when: maas_ssh_public_key is defined and maas_ssh_public_key != None
 
 - name: Setup SSH Private Key
-  copy:
+  ansible.builtin.copy:
     mode: 0600
     owner: maas
     content: "{{ maas_ssh_private_key }}"
