@@ -5,9 +5,14 @@
       - gpg
     state: present
 
+- name: install maas apt key
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 684D4A1C
+
 - name: configure maas repo
   ansible.builtin.apt_repository:
-    repo: ppa:maas/next
+    repo: ppa:maas/3.1
     state: present
     filename: maas
 
