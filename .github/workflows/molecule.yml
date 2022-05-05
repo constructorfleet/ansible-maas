@@ -17,13 +17,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r ${{ github.repository }}/requirements.txt
-      - name: Test with molecule
-        run: |
-          python3 -m molecule --debug converge
+      - name: Molecule
+        uses: robertdebock/molecule-action@4.0.7
 #
 #  release:
 #    name: Release
