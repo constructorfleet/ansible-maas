@@ -6,13 +6,12 @@ driver:
 platforms:
   - name: ansible-role-ubuntu-20.04
     image: python:3.9-buster
-    dockerfile: Dockerfile.j2
     privileged: true
 provisioner:
   name: ansible
-#lint: |
-#  set -e
-#  yamllint .
-#  ansible-lint .
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
 verifier:
   name: ansible

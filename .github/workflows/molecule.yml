@@ -17,6 +17,9 @@ jobs:
         uses: robertdebock/molecule-action@2.1.0
         with:
           options: --debug
+          molecule_args: --all
+        env:
+          ANSIBLE_FORCE_COLOR: '1'
 #
 #  release:
 #    name: Release
