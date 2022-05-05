@@ -9,6 +9,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Switch to using Python 3.8 by default
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Checkout code
         uses: actions/checkout@v2
         with:
