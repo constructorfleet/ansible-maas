@@ -17,7 +17,6 @@ jobs:
         uses: gofrolist/molecule-action@v2
         with:
           options: --debug
-          molecule_args: --all
         env:
           ANSIBLE_FORCE_COLOR: '1'
 #
